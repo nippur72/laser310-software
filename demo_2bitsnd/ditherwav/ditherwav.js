@@ -34,20 +34,6 @@ function writeDat(samples) {
    fs.writeFileSync("../audio_data.bin", new Uint8Array(arr));
 }
 
-function quantize(samples) {
-   const work = [...samples];
-
-   for(let t=0; t<work.length-4;t++) {
-      let v = work[t];
-      let q = v > 0.33 ? 1.0 : v < -0.33 ? -1.0 : 0;
-      let err = v-q;
-
-      // spread error
-      work[t] = q;
-   }
-   return work;
-}
-
 function dither(samples, coeffs) {
    const work = [...samples];
 
@@ -76,17 +62,18 @@ function main() {
    let f4 = [7/16, 5/16, 3/16, 1/16];
    let f3 = [5/8, 2/8, 1/8];
    let f2 = [4/5, 1/5];
+   let f0 = [];
    
    let all_samples = [
       dither(samples, f8),      
       dither(samples, f4),      
       dither(samples, f3),      
       dither(samples, f2),            
-      quantize(samples),
+      dither(samples, f0),            
       samples
    ];
    
-   writeWav(all_samples, "../sourcewav/out.wav", sampleRate);
+   writeWav(all_samples, "../sourcewav/dither.wav", sampleRate);
    writeDat(dither(samples, f8));
 }
 
