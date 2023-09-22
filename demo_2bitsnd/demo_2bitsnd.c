@@ -21,8 +21,8 @@ void show_rick() FASTNAKED {
    ret
 
 image_data:
-   ;INCBIN "image_data.bin"
-   INCBIN "image_data1.bin"
+   ;INCBIN "image_rick0.bin"
+   INCBIN "image_rick1.bin"
    __endasm;
 }
 
